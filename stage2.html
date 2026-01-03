@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter2｜プロローグ</title>
+<style>
+  body{background:#000;color:#f1f1f1;font-family:"Hiragino Sans","Arial",sans-serif;margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;-webkit-user-select:none;user-select:none}
+  .wrap{background:#111;padding:20px;border-radius:12px;box-shadow:0 0 20px rgba(0,0,0,.6);text-align:center;max-width:800px;width:90%}
+  h1{margin-bottom:16px}
+  .movie-wrap{position:relative;width:min(480px,90vw);margin:0 auto;border-radius:12px;overflow:hidden}
+.movie-wrap::before{ padding-top:177.78%; } /* 9:16 */
+  #ytplayer{position:absolute;inset:0;width:100%;height:100%}
+  .quiz-area{margin-top:20px}
+  .quiz-area button{padding:12px 24px;background:#444;border:1px solid #666;border-radius:8px;color:#fff;cursor:pointer;font-size:1.1rem}
+  .quiz-area button:hover:not(:disabled){background:#555}
+  .quiz-area button:disabled{opacity:.5;cursor:not-allowed}
+  .vg-locknote{margin-top:10px;font-size:.95rem;opacity:.8}
+</style>
+<!-- faviconは / だと事故りやすいので相対推奨 -->
+<link rel="icon" href="./favicon.ico">
+</head>
+<body>
+
+<div class="wrap">
+  <h1>Chapter２｜プロローグ</h1>
+
+  <!-- 🎥 YouTube -->
+  <div class="movie-wrap">
+    <div id="ytplayer"></div>
+  </div>
+
+  <div class="quiz-area">
+    <p id="locknote" class="vg-locknote">※ 動画を最後まで視聴すると次へ進めます。</p>
+    <button id="nextBtn" disabled>▶ 次へ</button>
+  </div>
+</div>
+
+<script>
+/* 親BGM停止（先生のまま） */
+(function stopParentBGM(){
+  try{
+    parent?.postMessage({type:'bgmStop'}, '*');
+  }catch(_) {}
+})();
+</script>
+
+<!-- YouTube IFrame API -->
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+/* ---------------- 視聴完了ロック（YouTubeの終了を検知） ---------------- */
+const btn  = document.getElementById('nextBtn');
+const note = document.getElementById('locknote');
+const KEY  = 'chapter2_viewed'; // 章ごとに変えるの推奨
+
+function unlock(){
+  if (!btn.disabled) return;
+  btn.disabled = false;
+  note.textContent = "✅ 動画を見終えました！次へ進めます。";
+}
+
+if (localStorage.getItem(KEY) === '1') unlock();
+
+/* ★ここを自分の動画IDに */
+const VIDEO_ID = "6Hcg3q2rvmw";
+
+let player;
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('ytplayer', {
+    videoId: VIDEO_ID,
+    playerVars: {
+      playsinline: 1,
+      rel: 0,
+      modestbranding: 1
+      // autoplay: 1, // 自動再生したいなら（ただしブラウザ制限あり）
+    },
+    events: {
+      onStateChange: (e) => {
+        // 0 = ended
+        if (e.data === YT.PlayerState.ENDED) {
+          localStorage.setItem(KEY,'1');
+          unlock();
+        }
+      }
+    }
+  });
+}
+
+btn.addEventListener('click', ()=>{
+  if (btn.disabled) return;
+  btn.disabled = true;
+  btn.textContent = '▶ 次へ（読み込み中…）';
+  location.href = 'stage3.html';
+});
+</script>
+
+</body>
+</html>
