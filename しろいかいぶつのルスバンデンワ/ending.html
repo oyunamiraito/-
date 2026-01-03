@@ -1,0 +1,42 @@
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>エンディング｜しろいかいぶつのルスバンデンワ</title>
+  <style>
+    body{margin:0;background:#000;color:#f1f1f1;font-family:'Courier New',monospace;
+         display:flex;align-items:center;justify-content:center;min-height:100vh;padding:0;overflow:hidden}
+    .wrap{position:relative;width:100%;height:100vh;display:flex;align-items:center;justify-content:center}
+    video{width:100%;height:100%;object-fit:cover}
+    .overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+             background:rgba(0,0,0,.35);color:#fff;text-align:center;padding:20px}
+    h1{font-size:clamp(1.4rem,4vw,2rem);margin:0 0 12px}
+    p{margin:4px 0;line-height:1.8}
+    .btnrow{margin-top:18px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+    .btn{padding:10px 18px;background:#222;border:1px solid #555;color:#f1f1f1;border-radius:8px;cursor:pointer}
+    .btn:hover{background:#333}
+    small{margin-top:10px;opacity:.75}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- エンディング動画 -->
+    <video autoplay muted playsinline loop>
+      <source src="seikou_osimai.mp4" type="video/mp4">
+      このブラウザでは動画を再生できません
+    </video>
+
+    <!-- テキスト＆ボタンのオーバーレイ -->
+    <div class="overlay">
+      <h1>―― おしまい ――</h1>
+      <p>あなたは「しろいかいぶつの留守番電話」を<br>最後まで解き明かした。</p>
+      <p>ここからは <strong>感想戦</strong> へ。</p>
+      <div class="btnrow">
+        <button class="btn" onclick="location.href='kansousen.html'">▶ 感想戦へ進む</button>
+        <button class="btn" onclick="location.href='index.html'">⟲ 最初に戻る</button>
+      </div>
+      <small>※エンディング動画は <code>seikou_osimai.mp4</code></small>
+    </div>
+  </div>
+</body>
+</html>
